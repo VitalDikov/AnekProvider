@@ -50,21 +50,18 @@ namespace AnekProvider.Core.Controllers
                 return aneks.First();
             else
             {
-
                 var anek = anekService.Create(url, text);
                 return anek;
-            }
-                
+            }                
         }
 
-        public Anek SaveAnek(User user, Anek anek)
+        public Anek SaveAnek(User user, Anek anek) // не забудь, что после добавления в бд у него обновляется Guid
         {
             anek = CreateAnek(anek.Uri, anek.Text);
             if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
             {
                 user.Aneks.Add(anek);
                 userService.Update(user);
-                Console.WriteLine(  userService.Get().First().Aneks.Count);
             }
             return anek;
         }
