@@ -4,10 +4,10 @@ using System.Text;
 
 namespace AnekProvider.DataModels.Entities
 {
-    public class Anek
+    public class VkUser
     {
         public Guid ID { get; set; }
-        public Uri Uri { get; set; } 
-        public string Text { get; set; }
+        public string UserPage { get; set; }
+        public List<Anek> Aneks { get; set; }
     }
 }
