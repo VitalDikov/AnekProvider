@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace AnekProvider.Core.Parsers
 {
-    public class BAnekParser : IParser<BAnek>
+    public class BAnekParser : IParser<Anek>
     {
-        public BAnek GetAnek(string url)
+        public Anek GetAnek(string url)
         {
             string htmlCode;
             using (WebClient client = new WebClient())
@@ -26,7 +26,7 @@ namespace AnekProvider.Core.Parsers
             foreach (HtmlNode node in trNode.SelectNodes("//br"))
                 node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
 
-            return new BAnek() { Text = trNode.InnerText, Uri = new Uri(url)};
+            return new Anek() { Text = trNode.InnerText, Uri = new Uri(url)};
         }
     }
 }

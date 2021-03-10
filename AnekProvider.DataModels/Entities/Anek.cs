@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AnekProvider.DataModels.Entities
 {
-    public class BAnek
+    public class Anek
     {
         public Uri Uri { get; set; } 
         public string Text { get; set; }
