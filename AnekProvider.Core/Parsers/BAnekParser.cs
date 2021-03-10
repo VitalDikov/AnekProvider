@@ -26,7 +26,7 @@ namespace AnekProvider.Core.Parsers
             foreach (HtmlNode node in trNode.SelectNodes("//br"))
                 node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
 
-            return new Anek() { Text = trNode.InnerText, Uri = new Uri(url)};
+            return new Anek() { Text = trNode.InnerText, Uri = url};
         }
     }
 }

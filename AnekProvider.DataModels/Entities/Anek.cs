@@ -7,7 +7,7 @@ namespace AnekProvider.DataModels.Entities
     public class Anek
     {
         public Guid ID { get; set; }
-        public Uri Uri { get; set; } 
+        public string Uri { get; set; } 
         public string Text { get; set; }
     }
 }

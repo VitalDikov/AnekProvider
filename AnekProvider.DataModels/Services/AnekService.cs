@@ -17,7 +17,7 @@ namespace AnekProvider.DataModels.Services
         {
             var Out = new Anek()
             {
-                Uri = new Uri(url),
+                Uri = url,
                 Text = text
             };
             _uof.Aneks.Create(Out);
