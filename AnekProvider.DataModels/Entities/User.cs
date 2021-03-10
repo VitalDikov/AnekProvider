@@ -8,6 +8,6 @@ namespace AnekProvider.DataModels.Entities
     {
         public Guid ID { get; set; }
         public string UserProfileID { get; set; }
-        public List<Anek> Aneks { get; set; }
+        public List<Anek> Aneks { get; set; } = new List<Anek>();
     }
 }
