@@ -13,11 +13,11 @@ namespace AnekProvider.DataModels.Services
         {
             _uof = uof;
         }
-        public VkUser Create(string userPage)
+        public User Create(string profileID)
         {
-            var Out = new VkUser()
+            var Out = new User()
             {
-                UserPage = userPage,
+                UserProfileID = profileID
             };
             _uof.Users.Create(Out);
             return Out;
@@ -25,27 +25,27 @@ namespace AnekProvider.DataModels.Services
 
 
         #region SameOperations
-        public VkUser FindByID(Guid id)
+        public User FindByID(Guid id)
         {
             return _uof.Users.FindById(id);
         }
 
-        public IEnumerable<VkUser> Get()
+        public IEnumerable<User> Get()
         {
             return _uof.Users.Get();
         }
 
-        public IEnumerable<VkUser> Get(Func<VkUser, bool> predicate)
+        public IEnumerable<User> Get(Func<User, bool> predicate)
         {
             return _uof.Users.Get(predicate);
         }
 
-        public void Remove(VkUser user)
+        public void Remove(User user)
         {
             _uof.Users.Remove(user);
         }
 
-        public void Update(VkUser user)
+        public void Update(User user)
         {
             _uof.Users.Update(user);
         }

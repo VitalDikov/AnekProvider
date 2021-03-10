@@ -12,7 +12,7 @@ namespace AnekProvider.DataModels.Repositories
         : base(options)
         { }
 
-        public DbSet<VkUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Anek> Aneks { get; set; }
     }
 }
