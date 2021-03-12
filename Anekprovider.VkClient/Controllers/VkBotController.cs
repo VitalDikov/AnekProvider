@@ -1,4 +1,4 @@
-using AnekProvider.Core.BotClinets;
+﻿using AnekProvider.Core.BotClinets;
 using AnekProvider.Core.Controllers;
 using AnekProvider.DataModels.Entities;
 using System;
@@ -20,7 +20,7 @@ namespace Anekprovider.VkClient.Controllers
 
         public List<Anek> GetAneks(string userProfileID)
         {
-            MainController.SaveAnek(userID, link);
+            return MainController.GetAneks(userProfileID);
         }
     }
 }

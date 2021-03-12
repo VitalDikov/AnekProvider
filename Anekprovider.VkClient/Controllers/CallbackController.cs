@@ -1,4 +1,4 @@
-using Anekprovider.VkClient.Models;
+﻿using Anekprovider.VkClient.Models;
 using AnekProvider.Core.BotClinets;
 using AnekProvider.DataModels.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +53,9 @@ namespace Anekprovider.VkClient.Controllers
                             case "/лайк":
                                 Save(msg);
                                 break;
+                            case "/все":
+                                All(msg);
+                                break;
                             default:
                                 Help(msg);
                                 break;
@@ -97,6 +100,30 @@ namespace Anekprovider.VkClient.Controllers
                 return;
             }
             _controller.Save(msg.UserId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+        }
+        private void All(Message msg)
+        {
+            var aneks = _controller.GetAneks(msg.UserId.ToString());
+            if(!aneks.Any())
+                _vkApi.Messages.Send(new MessagesSendParams
+                {
+                    RandomId = new DateTime().Millisecond,
+                    PeerId = msg.PeerId.Value,
+                    Message = "Вы еще не сохранили ни одного анека("
+                });
+            else
+            {
+                foreach (var anek in aneks)
+                {
+                    _vkApi.Messages.Send(new MessagesSendParams
+                    {
+                        RandomId = new DateTime().Millisecond,
+                        PeerId = msg.PeerId.Value,
+                        Message = $"{anek.Title}",
+                        Payload = JsonSerializer.Serialize(anek)
+                    });
+                }
+            }
         }
 
     }

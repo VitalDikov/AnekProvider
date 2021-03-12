@@ -73,9 +73,12 @@ namespace AnekProvider.Core.Controllers
                 userService.Update(user);
             }
         }
-        public static List<Anek> GetAneks(User user)
+        public static List<Anek> GetAneks(string userProfileID)
         {
-            var anekIDs = user.Aneks.Select(el => el.ID).AsQueryable();
+            var users = userService.Get(el => el.UserProfileID == userProfileID);
+            if (!users.Any())
+                return new List<Anek>();
+            var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
             return anekIDs.Select(el => anekService.FindByID(el)).ToList();
         }
             
