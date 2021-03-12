@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnekProvider.Core", "AnekPr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnekProvider.DataModels", "AnekProvider.DataModels\AnekProvider.DataModels.csproj", "{AA524FE5-9761-427A-BEEC-368606BE7F0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnekProvider", "AnekProvider\AnekProvider.csproj", "{F4C11A32-1DBB-4D91-AE3E-AB147AA0B805}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anekprovider.VkClient", "Anekprovider.VkClient\Anekprovider.VkClient.csproj", "{D3DBF4EA-435E-41D1-B240-C87F180E146A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anekprovider.VkClient", "Anekprovider.VkClient\Anekprovider.VkClient.csproj", "{D3DBF4EA-435E-41D1-B240-C87F180E146A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{AA524FE5-9761-427A-BEEC-368606BE7F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA524FE5-9761-427A-BEEC-368606BE7F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA524FE5-9761-427A-BEEC-368606BE7F0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4C11A32-1DBB-4D91-AE3E-AB147AA0B805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4C11A32-1DBB-4D91-AE3E-AB147AA0B805}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4C11A32-1DBB-4D91-AE3E-AB147AA0B805}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4C11A32-1DBB-4D91-AE3E-AB147AA0B805}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3DBF4EA-435E-41D1-B240-C87F180E146A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3DBF4EA-435E-41D1-B240-C87F180E146A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3DBF4EA-435E-41D1-B240-C87F180E146A}.Release|Any CPU.ActiveCfg = Release|Any CPU
