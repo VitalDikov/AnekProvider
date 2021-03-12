@@ -47,6 +47,9 @@ namespace Anekprovider.VkClient.Controllers
                             case "/анек":
                                 RandomAnek(msg);
                                 break;
+                            default:
+                                Help(msg);
+                                break;
                         }
                         break;
                     }
@@ -61,6 +64,16 @@ namespace Anekprovider.VkClient.Controllers
                 RandomId = new DateTime().Millisecond,
                 PeerId = msg.PeerId.Value,
                 Message = _controller.GetRandomAnek().Text
+            });
+        }
+
+        private void Help(Message msg)
+        {
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = _controller.Help()
             });
         }
     }
