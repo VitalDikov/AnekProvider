@@ -32,7 +32,12 @@ namespace AnekProvider.Core.Controllers
         public static Anek GetRandomAnek()
         {
             BAnekParser parser = new BAnekParser();
-            return parser.GetAnek("https://baneks.site/random");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://baneks.site/random");
+            request.AllowAutoRedirect = false;
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string redirUrl = "https://baneks.site/" + response.Headers["Location"];
+            response.Close();
+            return parser.GetAnek(redirUrl);
         }
 
         public static User CreateUser(string profileID)

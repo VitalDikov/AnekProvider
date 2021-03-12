@@ -21,12 +21,14 @@ namespace AnekProvider.Core.Parsers
             HtmlDocument html = new HtmlDocument();
             html.LoadHtml(htmlCode);
             string ClassToGet = "block-content mdl-card__supporting-text mdl-color--grey-300 mdl-color-text--grey-900";
-            var trNode = html.DocumentNode.SelectSingleNode($"//div[contains(@class, '{ClassToGet}')]");
+            var textNode = html.DocumentNode.SelectSingleNode($"//div[contains(@class, '{ClassToGet}')]");
 
-            foreach (HtmlNode node in trNode.SelectNodes("//br"))
+            foreach (HtmlNode node in textNode.SelectNodes("//br"))
                 node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
 
-            return new Anek() { Text = trNode.InnerText, Uri = url};
+            string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[1].Trim();
+
+            return new Anek() { Text = textNode.InnerText, Uri = url, Title = title};
         }
     }
 }
