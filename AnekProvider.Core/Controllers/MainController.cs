@@ -10,12 +10,12 @@ using System.Text;
 
 namespace AnekProvider.Core.Controllers
 {
-    public class MainController
+    public static class MainController
     {
-        private AnekService anekService;
-        private UserService userService;
+        private static AnekService anekService;
+        private static UserService userService;
 
-        public MainController()
+        static MainController()
         {
             var options = new DbContextOptionsBuilder<AnekContext>()
             .UseInMemoryDatabase(databaseName: "Test")
@@ -28,13 +28,13 @@ namespace AnekProvider.Core.Controllers
             userService = new UserService(uof);
         }
 
-        public Anek GetRandomAnek()
+        public static Anek GetRandomAnek()
         {
             BAnekParser parser = new BAnekParser();
             return parser.GetAnek("https://baneks.site/random");
         }
 
-        public User CreateUser(string profileID)
+        public static User CreateUser(string profileID)
         {
             var users = userService.Get(el => el.UserProfileID == profileID);
             if (users.Any())
@@ -43,7 +43,7 @@ namespace AnekProvider.Core.Controllers
                 return userService.Create(profileID);
         }
 
-        public Anek CreateAnek(string url, string text)
+        public static Anek CreateAnek(string url, string text)
         {
             var aneks = anekService.Get(el => el.Uri == url);
             if (aneks.Any())  
@@ -55,7 +55,7 @@ namespace AnekProvider.Core.Controllers
             }                
         }
 
-        public Anek SaveAnek(User user, Anek anek) // не забудь, что после добавления в бд у него обновляется Guid
+        public static Anek SaveAnek(User user, Anek anek) // не забудь, что после добавления в бд у него обновляется Guid
         {
             anek = CreateAnek(anek.Uri, anek.Text);
             if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
@@ -65,7 +65,7 @@ namespace AnekProvider.Core.Controllers
             }
             return anek;
         }
-        public List<Anek> GetAneks(User user)
+        public static List<Anek> GetAneks(User user)
         {
             var anekIDs = user.Aneks.Select(el => el.ID).AsQueryable();
             return anekIDs.Select(el => anekService.FindByID(el)).ToList();
