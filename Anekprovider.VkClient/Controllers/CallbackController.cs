@@ -1,4 +1,5 @@
 ﻿using Anekprovider.VkClient.Models;
+using AnekProvider.Core.BotClinets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,7 +19,7 @@ namespace Anekprovider.VkClient.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IVkApi _vkApi;
-
+        private readonly IBotController _controller;
         /// <summary>
         /// Конфигурация приложения
         /// </summary>
@@ -26,36 +27,41 @@ namespace Anekprovider.VkClient.Controllers
         {
             _vkApi = vkApi;
             _configuration = configuration;
+            _controller = new VkBotController();
         }
 
         [HttpPost]
         public IActionResult Callback([FromBody] UpdatesDto updates)
         {
-            // Проверяем, что находится в поле "type" 
             switch (updates.Type)
             {
-                // Если это уведомление для подтверждения адреса
                 case "confirmation":
-                    // Отправляем строку для подтверждения 
                     return Ok(_configuration["Config:Confirmation"]);
 
                 case "message_new":
                     {
-                        // Десериализация
                         var msg = Message.FromJson(new VkResponse(updates.Object));
 
-                        // Отправим в ответ полученный от пользователя текст
-                        _vkApi.Messages.Send(new MessagesSendParams
+                        switch (msg.Text)
                         {
-                            RandomId = new DateTime().Millisecond,
-                            PeerId = msg.PeerId.Value,
-                            Message = msg.Text
-                        });
+                            case "/анек":
+                                RandomAnek(msg);
+                                break;
+                        }
                         break;
                     }
             }
-            // Возвращаем "ok" серверу Callback API
             return Ok("ok");
+        }
+
+        private void RandomAnek(Message msg)
+        {
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = _controller.GetRandomAnek().Text
+            });
         }
     }
 }
