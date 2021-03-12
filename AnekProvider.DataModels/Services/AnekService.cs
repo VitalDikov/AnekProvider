@@ -13,10 +13,11 @@ namespace AnekProvider.DataModels.Services
         {
             _uof = uof;
         }
-        public Anek Create(string url, string text)
+        public Anek Create(string url, string text, string title)
         {
             var Out = new Anek()
             {
+                Title = title,
                 Uri = url,
                 Text = text
             };
