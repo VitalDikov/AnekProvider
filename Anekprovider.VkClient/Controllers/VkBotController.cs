@@ -1,4 +1,4 @@
-﻿using AnekProvider.Core.BotClinets;
+using AnekProvider.Core.BotClinets;
 using AnekProvider.Core.Controllers;
 using AnekProvider.DataModels.Entities;
 using System;
@@ -12,7 +12,15 @@ namespace Anekprovider.VkClient.Controllers
     {
         public Anek GetRandomAnek() =>
             MainController.GetRandomAnek();
-        
 
+        public void Save(string userProfileID, string link)
+        {
+            MainController.SaveAnek(userProfileID, link);
+        }
+
+        public List<Anek> GetAneks(string userProfileID)
+        {
+            MainController.SaveAnek(userID, link);
+        }
     }
 }

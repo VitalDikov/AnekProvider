@@ -1,4 +1,4 @@
-﻿using AnekProvider.DataModels.Entities;
+using AnekProvider.DataModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +12,11 @@ namespace AnekProvider.Core.BotClinets
         {
             string Out = "Список команд:\n" +
                 "/help - открыть это меню\n" +
-                "/анек - посмотреть случайный анекдот";
+                "/анек - посмотреть случайный анек\n" +
+                "/лайк - перешлите понравившийся анек и сохраните его";
             return Out;
         }
 
+        void Save(string userProfileID, string link);
     }
 }

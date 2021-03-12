@@ -61,15 +61,17 @@ namespace AnekProvider.Core.Controllers
             }                
         }
 
-        public static Anek SaveAnek(User user, Anek anek) // не забудь, что после добавления в бд у него обновляется Guid
+        public static void SaveAnek(string userProfileID, string anekLink)
         {
+            BAnekParser parser = new BAnekParser();
+            Anek anek = parser.GetAnek(anekLink);
+            User user = CreateUser(userProfileID);
             anek = CreateAnek(anek.Uri, anek.Text, anek.Title);
             if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
             {
                 user.Aneks.Add(anek);
                 userService.Update(user);
             }
-            return anek;
         }
         public static List<Anek> GetAneks(User user)
         {
