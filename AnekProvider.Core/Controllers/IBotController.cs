@@ -1,4 +1,4 @@
-using AnekProvider.DataModels.Entities;
+﻿using AnekProvider.DataModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,5 +20,6 @@ namespace AnekProvider.Core.BotClinets
 
         void Save(string userProfileID, string link);
         List<Anek> GetAneks(string userProfileID);
+        Anek GetAnek(Guid anekGuid);
     }
 }

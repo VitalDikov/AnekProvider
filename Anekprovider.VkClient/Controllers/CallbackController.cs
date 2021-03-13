@@ -56,6 +56,9 @@ namespace Anekprovider.VkClient.Controllers
                             case "/все":
                                 All(msg);
                                 break;
+                            case "/покеж":
+                                ShowAnek(msg);
+                                break;
                             default:
                                 Help(msg);
                                 break;
@@ -124,6 +127,18 @@ namespace Anekprovider.VkClient.Controllers
                     });
                 }
             }
+        }
+        
+        private void ShowAnek(Message msg)
+        {
+            Anek anek = _controller.GetAnek(JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).ID);
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = $"{anek.Text}",
+                Payload = msg.Payload
+            });
         }
 
     }

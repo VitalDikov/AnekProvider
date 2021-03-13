@@ -81,6 +81,11 @@ namespace AnekProvider.Core.Controllers
             var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
             return anekIDs.Select(el => anekService.FindByID(el)).ToList();
         }
+
+        public static Anek GetAnek(Guid guid)
+        {
+            return anekService.FindByID(guid);
+        }
             
     }
 }

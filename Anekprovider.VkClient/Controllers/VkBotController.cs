@@ -22,5 +22,9 @@ namespace Anekprovider.VkClient.Controllers
         {
             return MainController.GetAneks(userProfileID);
         }
+        public Anek GetAnek(Guid anekGuid)
+        {
+            return MainController.GetAnek(anekGuid);
+        }
     }
 }
