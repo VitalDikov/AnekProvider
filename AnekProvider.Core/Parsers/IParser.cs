@@ -7,5 +7,7 @@ namespace AnekProvider.Core.Parsers
     public interface IParser<TAnek> where TAnek: class
     {
         public TAnek GetAnek(string url);
+
+        public List<string> GetComments(string url);
     }
 }

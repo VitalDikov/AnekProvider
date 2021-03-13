@@ -26,5 +26,11 @@ namespace Anekprovider.VkClient.Controllers
         {
             return MainController.GetAnek(anekGuid);
         }
+
+        public List<string> GetComments(string url)
+        {
+            return MainController.GetAnekComments(url);
+        }
+
     }
 }

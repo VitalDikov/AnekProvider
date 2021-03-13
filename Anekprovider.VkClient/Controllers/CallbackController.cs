@@ -59,6 +59,9 @@ namespace Anekprovider.VkClient.Controllers
                             case "/покеж":
                                 ShowAnek(msg);
                                 break;
+                            case "/комменты":
+                                ShowComments(msg);
+                                break;
                             default:
                                 Help(msg);
                                 break;
@@ -141,5 +144,18 @@ namespace Anekprovider.VkClient.Controllers
             });
         }
 
+        private void ShowComments(Message msg)
+        {
+            var comments = _controller.GetComments(JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+            foreach (var comment in comments)
+            {
+                _vkApi.Messages.Send(new MessagesSendParams
+                {
+                    RandomId = new DateTime().Millisecond,
+                    PeerId = msg.PeerId.Value,
+                    Message = comment,
+                });
+            }
+        }
     }
 }

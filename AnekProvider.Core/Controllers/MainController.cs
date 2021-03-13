@@ -40,6 +40,12 @@ namespace AnekProvider.Core.Controllers
             return parser.GetAnek(redirUrl);
         }
 
+        public static List<string> GetAnekComments(string url)
+        {
+            BAnekParser parser = new BAnekParser();
+            return parser.GetComments(url);
+        }
+
         public static User CreateUser(string profileID)
         {
             var users = userService.Get(el => el.UserProfile == profileID);

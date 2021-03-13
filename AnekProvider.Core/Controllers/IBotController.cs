@@ -15,12 +15,14 @@ namespace AnekProvider.Core.BotClinets
                 "/анек - посмотреть случайный анек\n" +
                 "/лайк - перешлите понравившийся анек и сохраните его\n" +
                 "/все - открыть список сохраненных анеков\n" + 
-                "/покеж - показать полный анек из списка";
+                "/покеж - показать полный анек из списка\n" +
+                "/комменты - перешли анек и получи комментарии к нему";
             return Out;
         }
 
         void Save(string userProfileID, string link);
         List<Anek> GetAneks(string userProfileID);
         Anek GetAnek(Guid anekGuid);
+        List<string> GetComments(string url);
     }
 }

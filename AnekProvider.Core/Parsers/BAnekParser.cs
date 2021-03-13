@@ -30,5 +30,28 @@ namespace AnekProvider.Core.Parsers
 
             return new Anek() { Text = textNode.InnerText, Uri = url, Title = title};
         }
+
+        public List<string> GetComments(string url)
+        {
+            string htmlCode;
+            using (WebClient client = new WebClient())
+            {
+                htmlCode = client.DownloadString(url);
+            }
+
+            HtmlDocument html = new HtmlDocument();
+            html.LoadHtml(htmlCode);
+            string ClassToGet = "remake mdl-shadow--3dp block mdl-card mdl-card--border";
+            var parentNodes = html.DocumentNode.SelectNodes($"//div[contains(@class, '{ClassToGet}')]");
+
+            /*
+            foreach(var parentNode in parentNodes)
+            {
+                foreach (HtmlNode node in parentNode.SelectNodes("//br"))
+                    node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
+            }
+            */
+            return parentNodes.Select(s => s.InnerText).ToList();
+        }
     }
 }
