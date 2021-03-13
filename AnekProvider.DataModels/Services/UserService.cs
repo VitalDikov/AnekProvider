@@ -17,7 +17,7 @@ namespace AnekProvider.DataModels.Services
         {
             var Out = new User()
             {
-                UserProfileID = profileID
+                UserProfile = profileID
             };
             _uof.Users.Create(Out);
             return Out;

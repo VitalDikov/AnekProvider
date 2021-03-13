@@ -22,7 +22,7 @@ namespace AnekProvider.Core.Controllers
             .UseInMemoryDatabase(databaseName: "Test")
             .Options;
 
-            AnekContext db = new AnekContext(options);
+            AnekContext db = new AnekContext();
             UnitOfWork uof = new UnitOfWork(db);
 
             anekService = new AnekService(uof);
@@ -42,7 +42,7 @@ namespace AnekProvider.Core.Controllers
 
         public static User CreateUser(string profileID)
         {
-            var users = userService.Get(el => el.UserProfileID == profileID);
+            var users = userService.Get(el => el.UserProfile == profileID);
             if (users.Any())
                 return users.First();
             else
@@ -75,7 +75,7 @@ namespace AnekProvider.Core.Controllers
         }
         public static List<Anek> GetAneks(string userProfileID)
         {
-            var users = userService.Get(el => el.UserProfileID == userProfileID);
+            var users = userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
                 return new List<Anek>();
             var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
