@@ -15,7 +15,7 @@ namespace AnekProvider.DataModels.Repositories
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var databaseUrl = "postgres://nhbrhxkspooyqm:21770d47867aed6db21ce23746eb49b0c83a2af22a8bb9eb7dab417bd2d94215@ec2-34-252-251-16.eu-west-1.compute.amazonaws.com:5432/d717f5uoub6hft";
+            var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
             var databaseUri = new Uri(databaseUrl);
             var userInfo = databaseUri.UserInfo.Split(':');
 
@@ -25,7 +25,9 @@ namespace AnekProvider.DataModels.Repositories
                 Port = databaseUri.Port,
                 Username = userInfo[0],
                 Password = userInfo[1],
-                Database = databaseUri.LocalPath.TrimStart('/')
+                Database = databaseUri.LocalPath.TrimStart('/'),
+                SslMode = SslMode.Require,
+                TrustServerCertificate = true
             };
 
             optionsBuilder.UseNpgsql(builder.ToString());
