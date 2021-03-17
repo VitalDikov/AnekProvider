@@ -92,21 +92,10 @@ namespace Anekprovider.VkClient.Controllers
         }
         private void Save(Message msg)
         {
-            if (msg.ReplyMessage == null)
-            {
-                _vkApi.Messages.Send(new MessagesSendParams
-                {
-                    RandomId = new DateTime().Millisecond,
-                    PeerId = msg.PeerId.Value,
-                    Message = "Перешлите анек, пожалуйста"
-                });
-                return;
-            }
-
             string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
 
-            if (msg.ReplyMessage.ForwardedMessages.Any())
-                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.ForwardedMessages.First().Payload).Uri);
+            if (msg.ForwardedMessages.First().ForwardedMessages.Any())
+                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ForwardedMessages.First().ForwardedMessages.First().Payload).Uri);
             else
                 _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
         }
@@ -143,7 +132,7 @@ namespace Anekprovider.VkClient.Controllers
                 RandomId = new DateTime().Millisecond,
                 PeerId = msg.PeerId.Value,
                 Message = $"{anek.Text}",
-                Payload = msg.Payload
+                Payload = msg.ReplyMessage.Payload
             });
         }
 
