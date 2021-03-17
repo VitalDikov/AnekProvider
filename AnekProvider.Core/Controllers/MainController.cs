@@ -36,13 +36,13 @@ namespace AnekProvider.Core.Controllers
             return parser.GetAnek(redirUrl);
         }
 
-        public static User CreateUser(string profileID)
+        public static User CreateUser(string profileID, string userName)
         {
             var users = userService.Get(el => el.UserProfile == profileID);
             if (users.Any())
                 return users.First();
             else
-                return userService.Create(profileID);
+                return userService.Create(profileID, userName);
         }
 
         public static Anek CreateAnek(string url, string text, string title)
@@ -57,11 +57,11 @@ namespace AnekProvider.Core.Controllers
             }                
         }
 
-        public static void SaveAnek(string userProfileID, string anekLink)
+        public static void SaveAnek(string userProfileID, string username, string anekLink)
         {
             BAnekParser parser = new BAnekParser();
             Anek anek = parser.GetAnek(anekLink);
-            User user = CreateUser(userProfileID);
+            User user = CreateUser(userProfileID, username);
             anek = CreateAnek(anek.Uri, anek.Text, anek.Title);
             if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
             {

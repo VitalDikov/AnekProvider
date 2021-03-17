@@ -13,9 +13,9 @@ namespace Anekprovider.VkClient.Controllers
         public Anek GetRandomAnek() =>
             MainController.GetRandomAnek();
 
-        public void Save(string userProfileID, string link)
+        public void Save(string userProfileID, string userName, string link)
         {
-            MainController.SaveAnek(userProfileID, link);
+            MainController.SaveAnek(userProfileID, userName, link);
         }
 
         public List<Anek> GetAneks(string userProfileID)

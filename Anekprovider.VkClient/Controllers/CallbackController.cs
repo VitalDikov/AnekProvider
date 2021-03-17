@@ -103,10 +103,12 @@ namespace Anekprovider.VkClient.Controllers
                 return;
             }
 
+            string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
+
             if (msg.ReplyMessage.ForwardedMessages.Any())
-                _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.ForwardedMessages.First().Payload).Uri);
+                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.ForwardedMessages.First().Payload).Uri);
             else
-                _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
         }
         private void All(Message msg)
         {

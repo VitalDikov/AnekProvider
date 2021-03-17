@@ -13,11 +13,12 @@ namespace AnekProvider.DataModels.Services
         {
             _uof = uof;
         }
-        public User Create(string profileID)
+        public User Create(string profileID, string username)
         {
             var Out = new User()
             {
-                UserProfile = profileID
+                UserProfile = profileID,
+                UserName = username
             };
             _uof.Users.Create(Out);
             return Out;

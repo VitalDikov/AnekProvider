@@ -19,7 +19,7 @@ namespace AnekProvider.Core.BotClinets
             return Out;
         }
 
-        void Save(string userProfileID, string link);
+        void Save(string userProfileID, string userName, string link);
         List<Anek> GetAneks(string userProfileID);
         Anek GetAnek(Guid anekGuid);
     }
