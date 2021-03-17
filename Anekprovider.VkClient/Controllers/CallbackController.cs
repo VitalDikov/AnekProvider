@@ -102,11 +102,11 @@ namespace Anekprovider.VkClient.Controllers
                 });
                 return;
             }
-            _controller.Save(msg.UserId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+            _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
         }
         private void All(Message msg)
         {
-            var aneks = _controller.GetAneks(msg.UserId.ToString());
+            var aneks = _controller.GetAneks(msg.FromId.ToString());
             if(!aneks.Any())
                 _vkApi.Messages.Send(new MessagesSendParams
                 {
