@@ -18,11 +18,7 @@ namespace AnekProvider.Core.Controllers
 
         static MainController()
         {
-            var options = new DbContextOptionsBuilder<AnekContext>()
-            .UseInMemoryDatabase(databaseName: "Test")
-            .Options;
-
-            AnekContext db = new AnekContext(options);
+            AnekContext db = new AnekContext();
             UnitOfWork uof = new UnitOfWork(db);
 
             anekService = new AnekService(uof);
