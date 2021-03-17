@@ -92,7 +92,7 @@ namespace Anekprovider.VkClient.Controllers
         }
         private void Save(Message msg)
         {
-            if(msg.ReplyMessage == null || String.IsNullOrEmpty(msg.ReplyMessage.Payload))
+            if (msg.ReplyMessage == null)
             {
                 _vkApi.Messages.Send(new MessagesSendParams
                 {
@@ -102,7 +102,11 @@ namespace Anekprovider.VkClient.Controllers
                 });
                 return;
             }
-            _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+
+            if (msg.ReplyMessage.ForwardedMessages.Any())
+                _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.ForwardedMessages.First().Payload).Uri);
+            else
+                _controller.Save(msg.FromId.ToString(), JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
         }
         private void All(Message msg)
         {
