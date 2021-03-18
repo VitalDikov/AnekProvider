@@ -25,7 +25,7 @@ namespace AnekProvider.Core.Controllers
             userService = new UserService(uof);
         }
 
-        public static Anek GetRandomAnek()
+        public static ParsableAnek GetRandomAnek()
         {
             BAnekParser parser = new BAnekParser();
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://baneks.site/random");
@@ -33,52 +33,44 @@ namespace AnekProvider.Core.Controllers
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             string redirUrl = "https://baneks.site/" + response.Headers["Location"];
             response.Close();
-            return parser.GetAnek(redirUrl);
+            return new ParsableAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
         }
 
-        public static User CreateUser(string profileID, string userName)
+        public static User CreateUser(User user)
         {
-            var users = userService.Get(el => el.UserProfile == profileID);
+            var users = userService.Get(el => el.UserProfile == user.UserProfile);
             if (users.Any())
                 return users.First();
             else
-                return userService.Create(profileID, userName);
+                return userService.Create(user);
         }
 
-        public static Anek CreateAnek(string url, string text, string title)
+        public static BaseAnek CreateAnek(BaseAnek anek)
         {
-            var aneks = anekService.Get(el => el.Uri == url);
-            if (aneks.Any())  
-                return aneks.First();
-            else
-            {
-                var anek = anekService.Create(url, text, title);
-                return anek;
-            }                
+            return anekService.Create(anek);                
         }
 
-        public static void SaveAnek(string userProfileID, string username, string anekLink)
+        public static void SaveAnek(User user, BaseAnek anek)
         {
-            BAnekParser parser = new BAnekParser();
-            Anek anek = parser.GetAnek(anekLink);
-            User user = CreateUser(userProfileID, username);
-            anek = CreateAnek(anek.Uri, anek.Text, anek.Title);
+            user = CreateUser(user);
+            anek = CreateAnek(anek);
             if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
             {
                 user.Aneks.Add(anek);
                 userService.Update(user);
             }
         }
-        public static List<Anek> GetAneks(string userProfileID)
+
+        public static List<BaseAnek> GetAneks(string userProfileID)
         {
             var users = userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
-                return new List<Anek>();
+                return new List<BaseAnek>();
             var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
             return anekIDs.Select(el => anekService.FindByID(el)).ToList();
         }
 
-        public static Anek GetAnek(Guid guid)
+        public static BaseAnek GetAnek(Guid guid)
         {
             return anekService.FindByID(guid);
         }

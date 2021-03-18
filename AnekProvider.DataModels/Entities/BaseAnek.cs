@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.Json.Serialization;
 
 namespace AnekProvider.DataModels.Entities
 {
-    public class Anek
+    public abstract class BaseAnek
     {
         public Guid ID { get; set; }
         public string Title { get; set; }
-        public string Uri { get; set; }
-        [JsonIgnore]
-        public string Text { get; set; }
+
+        public abstract string GetText();
     }
 }

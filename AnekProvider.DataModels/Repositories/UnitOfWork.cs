@@ -9,13 +9,13 @@ namespace AnekProvider.DataModels.Repositories
     {
         private AnekContext _db;
         public IGenericRepository<User> Users { get; private set; }
-        public IGenericRepository<Anek> Aneks { get; private set; }
+        public IGenericRepository<BaseAnek> Aneks { get; private set; }
 
         public UnitOfWork(AnekContext db)
         {
             _db = db;
             Users = new GenericRepository<User>(db, db.Users);
-            Aneks = new GenericRepository<Anek>(db, db.Aneks);
+            Aneks = new GenericRepository<BaseAnek>(db, db.Aneks);
         }
 
         public void Save()

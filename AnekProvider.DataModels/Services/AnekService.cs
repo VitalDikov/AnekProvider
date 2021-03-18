@@ -13,41 +13,34 @@ namespace AnekProvider.DataModels.Services
         {
             _uof = uof;
         }
-        public Anek Create(string url, string text, string title)
+        public BaseAnek Create(BaseAnek anek)
         {
-            var Out = new Anek()
-            {
-                Title = title,
-                Uri = url,
-                Text = text
-            };
-            _uof.Aneks.Create(Out);
-            return Out;
+            return _uof.Aneks.Create(anek);
         }
 
 
         #region SameOperations
-        public Anek FindByID(Guid id)
+        public BaseAnek FindByID(Guid id)
         {
             return _uof.Aneks.FindById(id);
         }
 
-        public IEnumerable<Anek> Get()
+        public IEnumerable<BaseAnek> Get()
         {
             return _uof.Aneks.Get();
         }
 
-        public IEnumerable<Anek> Get(Func<Anek, bool> predicate)
+        public IEnumerable<BaseAnek> Get(Func<BaseAnek, bool> predicate)
         {
             return _uof.Aneks.Get(predicate);
         }
 
-        public void Remove(Anek anek)
+        public void Remove(BaseAnek anek)
         {
             _uof.Aneks.Remove(anek);
         }
 
-        public void Update(Anek anek)
+        public void Update(BaseAnek anek)
         {
             _uof.Aneks.Update(anek);
         }

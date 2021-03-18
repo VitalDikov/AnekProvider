@@ -10,19 +10,20 @@ namespace Anekprovider.VkClient.Controllers
 {
     public class VkBotController : IBotController
     {
-        public Anek GetRandomAnek() =>
-            MainController.GetRandomAnek();
-
-        public void Save(string userProfileID, string userName, string link)
+        public ParsableAnek GetRandomAnek()
         {
-            MainController.SaveAnek(userProfileID, userName, link);
+            return MainController.GetRandomAnek();
+        }
+        public void Save(User user, BaseAnek anek)
+        {
+            MainController.SaveAnek(user, anek);
         }
 
-        public List<Anek> GetAneks(string userProfileID)
+        public List<BaseAnek> GetAneks(string userProfileID)
         {
             return MainController.GetAneks(userProfileID);
         }
-        public Anek GetAnek(Guid anekGuid)
+        public BaseAnek GetAnek(Guid anekGuid)
         {
             return MainController.GetAnek(anekGuid);
         }

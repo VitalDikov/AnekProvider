@@ -34,6 +34,6 @@ namespace AnekProvider.DataModels.Repositories
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Anek> Aneks { get; set; }
+        public DbSet<BaseAnek> Aneks { get; set; }
     }
 }

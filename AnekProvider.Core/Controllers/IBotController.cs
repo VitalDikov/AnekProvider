@@ -7,7 +7,7 @@ namespace AnekProvider.Core.BotClinets
 {
     public interface IBotController
     {
-        Anek GetRandomAnek();
+        ParsableAnek GetRandomAnek();
         string Help()
         {
             string Out = "Список команд:\n" +
@@ -19,8 +19,8 @@ namespace AnekProvider.Core.BotClinets
             return Out;
         }
 
-        void Save(string userProfileID, string userName, string link);
-        List<Anek> GetAneks(string userProfileID);
-        Anek GetAnek(Guid anekGuid);
+        void Save(User user, BaseAnek anek);
+        List<BaseAnek> GetAneks(string userProfileID);
+        BaseAnek GetAnek(Guid anekGuid);
     }
 }

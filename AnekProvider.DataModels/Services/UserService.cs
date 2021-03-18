@@ -13,15 +13,9 @@ namespace AnekProvider.DataModels.Services
         {
             _uof = uof;
         }
-        public User Create(string profileID, string username)
+        public User Create(User user)
         {
-            var Out = new User()
-            {
-                UserProfile = profileID,
-                UserName = username
-            };
-            _uof.Users.Create(Out);
-            return Out;
+            return _uof.Users.Create(user);
         }
 
 

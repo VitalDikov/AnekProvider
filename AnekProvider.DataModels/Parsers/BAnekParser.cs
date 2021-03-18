@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace AnekProvider.Core.Parsers
 {
-    public class BAnekParser : IParser<Anek>
+    public class BAnekParser : IParser
     {
-        public Anek GetAnek(string url)
+        public string GetText(string url)
         {
             string htmlCode;
             using (WebClient client = new WebClient())
@@ -28,7 +28,22 @@ namespace AnekProvider.Core.Parsers
 
             string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[1].Trim();
 
-            return new Anek() { Text = textNode.InnerText, Uri = url, Title = title};
+            return textNode.InnerText;
+        }
+
+        public string GetTitle(string url)
+        {
+            string htmlCode;
+            using (WebClient client = new WebClient())
+            {
+                htmlCode = client.DownloadString(url);
+            }
+
+            HtmlDocument html = new HtmlDocument();
+            html.LoadHtml(htmlCode);
+            string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[1].Trim();
+
+            return title;
         }
     }
 }

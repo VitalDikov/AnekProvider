@@ -4,8 +4,9 @@ using System.Text;
 
 namespace AnekProvider.Core.Parsers
 {
-    public interface IParser<TAnek> where TAnek: class
+    public interface IParser
     {
-        public TAnek GetAnek(string url);
+        public string GetTitle(string url);
+        public string GetText(string url);
     }
 }
