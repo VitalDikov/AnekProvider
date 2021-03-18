@@ -32,6 +32,13 @@ namespace AnekProvider.DataModels.Repositories
 
             optionsBuilder.UseNpgsql(builder.ToString());
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<CustomAnek>();
+            builder.Entity<ParsableAnek>();
+
+            base.OnModelCreating(builder);
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<BaseAnek> Aneks { get; set; }

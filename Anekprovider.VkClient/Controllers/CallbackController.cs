@@ -64,7 +64,10 @@ namespace Anekprovider.VkClient.Controllers
                                 ShowAnek(msg);
                                 break;
                             default:
-                                Help(msg);
+                                if (msg.Text.Contains("/новый"))
+                                    CreateUserAnek(msg);
+                                else
+                                    Help(msg);
                                 break;
                         }
                         break;
@@ -83,6 +86,18 @@ namespace Anekprovider.VkClient.Controllers
                 Message = anek.GetText(),
                 Payload = JsonConvert.SerializeObject(anek, _settings)
             });
+        }
+        private void CreateUserAnek(Message msg)
+        {
+            var args = msg.ReplyMessage.Text.Split("~~~");
+            string title = args[0].Trim();
+            string text = args[1].Trim();
+
+            CustomAnek anek = new CustomAnek() { Text = text, Title = title };
+
+            string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
+            var user = new AnekProvider.DataModels.Entities.User() { UserProfile = msg.FromId.ToString(), UserName = nickname };
+            _controller.Save(user, anek);
         }
 
         private void Help(Message msg)
