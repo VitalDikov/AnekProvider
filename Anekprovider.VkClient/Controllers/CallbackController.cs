@@ -94,10 +94,11 @@ namespace Anekprovider.VkClient.Controllers
         {
             string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
 
-            if (msg.ForwardedMessages.First().ForwardedMessages.Any())
-                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ForwardedMessages.First().ForwardedMessages.First().Payload).Uri);
-            else
+            if(msg.ReplyMessage != null)
                 _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ReplyMessage.Payload).Uri);
+            else
+                _controller.Save(msg.FromId.ToString(), nickname, JsonSerializer.Deserialize<Anek>(msg.ForwardedMessages.First().ForwardedMessages.First().Payload).Uri);
+
         }
         private void All(Message msg)
         {
