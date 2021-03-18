@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace AnekProvider.DataModels.Entities
 {
-    class CustomAnek : BaseAnek
+    public class CustomAnek : BaseAnek
     {
         [JsonIgnore]
         public string Text { get; set; }

@@ -25,7 +25,7 @@ namespace Anekprovider.VkClient.Controllers
 
         private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto
+            TypeNameHandling = TypeNameHandling.All,
         };
         /// <summary>
         /// Конфигурация приложения
@@ -98,11 +98,12 @@ namespace Anekprovider.VkClient.Controllers
         {
             string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
             var user = new AnekProvider.DataModels.Entities.User() { UserProfile = msg.FromId.ToString(), UserName = nickname };
-            if(msg.ReplyMessage != null)
-                _controller.Save(user, JsonConvert.DeserializeObject<BaseAnek>(msg.ReplyMessage.Payload, _settings));
-            else
-                _controller.Save(user, JsonConvert.DeserializeObject<BaseAnek>(msg.ForwardedMessages.First().ForwardedMessages.First().Payload, _settings));
 
+            string payload = msg.ReplyMessage != null ?
+                msg.ReplyMessage.Payload :
+                msg.ForwardedMessages.First().ForwardedMessages.First().Payload;
+
+                _controller.Save(user, (BaseAnek)JsonConvert.DeserializeObject(payload, _settings));
         }
         private void All(Message msg)
         {
@@ -131,8 +132,7 @@ namespace Anekprovider.VkClient.Controllers
         
         private void ShowAnek(Message msg)
         {
-
-            BaseAnek anek = _controller.GetAnek(JsonConvert.DeserializeObject<BaseAnek>(msg.ReplyMessage.Payload, _settings).ID);
+            BaseAnek anek = _controller.GetAnek(((BaseAnek)JsonConvert.DeserializeObject(msg.ReplyMessage.Payload, _settings)).ID);
             _vkApi.Messages.Send(new MessagesSendParams
             {
                 RandomId = new DateTime().Millisecond,
