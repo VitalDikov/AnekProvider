@@ -36,7 +36,7 @@ namespace AnekProvider.DataModels.Repositories
         {
             builder.Entity<CustomAnek>();
             builder.Entity<BDotSiteAnek>();
-
+            builder.Entity<BDotRuAnek>();
             base.OnModelCreating(builder);
         }
 

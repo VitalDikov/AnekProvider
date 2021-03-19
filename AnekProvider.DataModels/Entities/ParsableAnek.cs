@@ -10,6 +10,7 @@ namespace AnekProvider.DataModels.Entities
     public abstract class ParsableAnek : BaseAnek
     {
         public string Uri { get; set; }
+        [JsonIgnore]
         [NotMapped]
         protected abstract IParser Parser { get; set; }
         public override string GetText()
