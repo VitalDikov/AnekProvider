@@ -1,5 +1,6 @@
 ﻿using AnekProvider.Core.Parsers;
 using AnekProvider.DataModels.Entities;
+using AnekProvider.DataModels.Parsers;
 using AnekProvider.DataModels.Repositories;
 using AnekProvider.DataModels.Services;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +38,16 @@ namespace AnekProvider.Core.Controllers
                         string redirUrl = "https://baneks.site/" + GetRedirUrl("https://baneks.site/random");
                         return new BDotSiteAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
                     }
+                case 1:
+                    {
+                        BDotRuAnekParser parser = new BDotRuAnekParser();
+                        string redirUrl = "https://baneks.ru/" + GetRedirUrl("https://baneks.ru/random");
+                        return new BDotRuAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+                    }
+                default:
+                    throw new Exception("Invalid Parsers Amount");
             }
-            return null;
+            
 
         }
 
