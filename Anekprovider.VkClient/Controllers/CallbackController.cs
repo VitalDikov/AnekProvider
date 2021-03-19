@@ -12,6 +12,8 @@ using VkNet.Model;
 using VkNet.Model.RequestParams;
 using VkNet.Utils;
 using Newtonsoft.Json;
+using VkNet.Model.Keyboard;
+using VkNet.Enums.SafetyEnums;
 
 namespace Anekprovider.VkClient.Controllers
 {
@@ -52,12 +54,14 @@ namespace Anekprovider.VkClient.Controllers
                         switch (msg.Text)
                         {
                             case "/анек":
+                            case "Хочу анекдот":
                                 RandomAnek(msg);
                                 break;
                             case "/лайк":
                                 Save(msg);
                                 break;
                             case "/все":
+                            case "Мои любимые анеки":
                                 All(msg);
                                 break;
                             case "/покеж":
@@ -106,8 +110,12 @@ namespace Anekprovider.VkClient.Controllers
             {
                 RandomId = new DateTime().Millisecond,
                 PeerId = msg.PeerId.Value,
-                Message = _controller.Help()
-            });
+                Message = _controller.Help(),
+                Keyboard = new KeyboardBuilder()
+                        .AddButton("Хочу анекдот", "", KeyboardButtonColor.Positive)
+                        .AddButton("Мои любимые анеки", "", KeyboardButtonColor.Negative)
+                        .Build()
+            }) ;
         }
         private void Save(Message msg)
         {
