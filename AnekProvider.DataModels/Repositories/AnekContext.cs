@@ -15,7 +15,7 @@ namespace AnekProvider.DataModels.Repositories
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var databaseUrl = "postgres://nhbrhxkspooyqm:21770d47867aed6db21ce23746eb49b0c83a2af22a8bb9eb7dab417bd2d94215@ec2-34-252-251-16.eu-west-1.compute.amazonaws.com:5432/d717f5uoub6hft";
+            var databaseUrl =  "postgres://uolitwcljvprqd:07c92d8926b5133b4b064137421dc1a78ac9322373f97729c1049cb205fddf05@ec2-54-247-158-179.eu-west-1.compute.amazonaws.com:5432/d9m6sj9s0k74d3";
             var databaseUri = new Uri(databaseUrl);
             var userInfo = databaseUri.UserInfo.Split(':');
 
@@ -35,8 +35,8 @@ namespace AnekProvider.DataModels.Repositories
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<CustomAnek>();
-            builder.Entity<ParsableAnek>();
-
+            builder.Entity<BDotSiteAnek>();
+            builder.Entity<BDotRuAnek>();
             base.OnModelCreating(builder);
         }
 

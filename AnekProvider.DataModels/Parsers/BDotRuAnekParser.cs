@@ -1,14 +1,13 @@
-﻿using AnekProvider.DataModels.Entities;
+﻿using AnekProvider.Core.Parsers;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
-using System.Linq;
+using System.Text;
 
-namespace AnekProvider.Core.Parsers
+namespace AnekProvider.DataModels.Parsers
 {
-    public class BAnekParser : IParser
+    public class BDotRuAnekParser : IParser
     {
         public string GetText(string url)
         {
@@ -20,14 +19,7 @@ namespace AnekProvider.Core.Parsers
 
             HtmlDocument html = new HtmlDocument();
             html.LoadHtml(htmlCode);
-            string ClassToGet = "block-content mdl-card__supporting-text mdl-color--grey-300 mdl-color-text--grey-900";
-            var textNode = html.DocumentNode.SelectSingleNode($"//div[contains(@class, '{ClassToGet}')]");
-
-            foreach (HtmlNode node in textNode.SelectNodes("//br"))
-                node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
-
-            string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[1].Trim();
-
+            var textNode = html.DocumentNode.SelectSingleNode($"//article//p");
             return textNode.InnerText;
         }
 
@@ -41,7 +33,7 @@ namespace AnekProvider.Core.Parsers
 
             HtmlDocument html = new HtmlDocument();
             html.LoadHtml(htmlCode);
-            string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[1].Trim();
+            string title = html.DocumentNode.SelectSingleNode($"//title").InnerText.Split('|')[0].Trim();
 
             return title;
         }

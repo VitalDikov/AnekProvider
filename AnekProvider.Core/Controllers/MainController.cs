@@ -1,5 +1,6 @@
 ﻿using AnekProvider.Core.Parsers;
 using AnekProvider.DataModels.Entities;
+using AnekProvider.DataModels.Parsers;
 using AnekProvider.DataModels.Repositories;
 using AnekProvider.DataModels.Services;
 using Microsoft.EntityFrameworkCore;
@@ -27,13 +28,39 @@ namespace AnekProvider.Core.Controllers
 
         public static ParsableAnek GetRandomAnek()
         {
-            BAnekParser parser = new BAnekParser();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://baneks.site/random");
+            int parsersAmount = 2; // добавить, когда появятся новые парсеры
+            Random r = new Random();
+            switch (r.Next(parsersAmount))
+            {
+                case 0:
+                    {
+                        BDotSiteAnekParser parser = new BDotSiteAnekParser();
+                        string redirUrl = "https://baneks.site/" + GetRedirUrl("https://baneks.site/random");
+                        return new BDotSiteAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+                    }
+                case 1:
+                    {
+                        BDotRuAnekParser parser = new BDotRuAnekParser();
+                        string redirUrl = GetRedirUrl("https://baneks.ru/random");
+                        var titlewords = parser.GetTitle(redirUrl).Split();
+                        string title = String.Join(' ', titlewords.Take(Math.Min(10, titlewords.Count())));
+                        return new BDotRuAnek() { Title = title, Uri = redirUrl };
+                    }
+                default:
+                    throw new Exception("Invalid Parsers Amount");
+            }
+            
+
+        }
+
+        private static string GetRedirUrl(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AllowAutoRedirect = false;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string redirUrl = "https://baneks.site/" + response.Headers["Location"];
+            string redirUrl = response.Headers["Location"];
             response.Close();
-            return new ParsableAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+            return redirUrl;
         }
 
         public static User CreateUser(User user)
@@ -53,12 +80,8 @@ namespace AnekProvider.Core.Controllers
         public static void SaveAnek(User user, BaseAnek anek)
         {
             user = CreateUser(user);
-            anek = CreateAnek(anek);
-            if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
-            {
-                user.Aneks.Add(anek);
-                userService.Update(user);
-            }
+            anek.User = user.ID;
+            anek = CreateAnek(anek);                
         }
 
         public static List<BaseAnek> GetAneks(string userProfileID)
@@ -66,8 +89,8 @@ namespace AnekProvider.Core.Controllers
             var users = userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
                 return new List<BaseAnek>();
-            var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
-            return anekIDs.Select(el => anekService.FindByID(el)).ToList();
+            var user = users.First();
+            return anekService.Get(an => an.User == user.ID).ToList();
         }
 
         public static BaseAnek GetAnek(Guid guid)
