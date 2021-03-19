@@ -27,13 +27,29 @@ namespace AnekProvider.Core.Controllers
 
         public static ParsableAnek GetRandomAnek()
         {
-            BAnekParser parser = new BAnekParser();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://baneks.site/random");
+            int parsersAmount = 1; // добавить, когда появятся новые парсеры
+            Random r = new Random();
+            switch (r.Next(parsersAmount))
+            {
+                case 0:
+                    {
+                        BDotSiteAnekParser parser = new BDotSiteAnekParser();
+                        string redirUrl = "https://baneks.site/" + GetRedirUrl("https://baneks.site/random");
+                        return new BDotSiteAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+                    }
+            }
+            return null;
+
+        }
+
+        private static string GetRedirUrl(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AllowAutoRedirect = false;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string redirUrl = "https://baneks.site/" + response.Headers["Location"];
+            string redirUrl = response.Headers["Location"];
             response.Close();
-            return new ParsableAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+            return redirUrl;
         }
 
         public static User CreateUser(User user)
@@ -54,8 +70,7 @@ namespace AnekProvider.Core.Controllers
         {
             user = CreateUser(user);
             anek.User = user.ID;
-            anek = CreateAnek(anek);
-                
+            anek = CreateAnek(anek);                
         }
 
         public static List<BaseAnek> GetAneks(string userProfileID)

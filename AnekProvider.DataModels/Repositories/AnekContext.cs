@@ -35,7 +35,7 @@ namespace AnekProvider.DataModels.Repositories
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<CustomAnek>();
-            builder.Entity<ParsableAnek>();
+            builder.Entity<BDotSiteAnek>();
 
             base.OnModelCreating(builder);
         }

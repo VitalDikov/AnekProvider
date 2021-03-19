@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace AnekProvider.Core.Parsers
 {
-    public class BAnekParser : IParser
+    public class BDotSiteAnekParser : IParser
     {
         public string GetText(string url)
         {
