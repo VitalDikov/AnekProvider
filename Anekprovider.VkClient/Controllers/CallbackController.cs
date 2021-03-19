@@ -110,6 +110,13 @@ namespace Anekprovider.VkClient.Controllers
             string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
             var user = new AnekProvider.DataModels.Entities.User() { UserProfile = msg.FromId.ToString(), UserName = nickname };
             _controller.Save(user, anek);
+
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = "Анек успешно добавлен!",
+            });
         }
 
         private void Help(Message msg)
@@ -133,11 +140,18 @@ namespace Anekprovider.VkClient.Controllers
             string payload = msg.ReplyMessage != null ?
                 msg.ReplyMessage.Payload :
                 msg.ForwardedMessages.First().ForwardedMessages.First().Payload;
-
+                
             var anek = (BaseAnek)JsonConvert.DeserializeObject(payload, _settings);
             anek.ID = Guid.Empty;
             anek.User = Guid.Empty;
             _controller.Save(user, anek);
+            
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = "Анек успешно сохранён!",
+            });
         }
         private void All(Message msg)
         {
