@@ -20,10 +20,6 @@ namespace AnekProvider.DataModels.Parsers
             HtmlDocument html = new HtmlDocument();
             html.LoadHtml(htmlCode);
             var textNode = html.DocumentNode.SelectSingleNode($"//article//p");
-
-            foreach (HtmlNode node in textNode.SelectNodes("//br"))
-                node.ParentNode.ReplaceChild(html.CreateTextNode("\n"), node);
-
             return textNode.InnerText;
         }
 
