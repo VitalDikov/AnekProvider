@@ -102,6 +102,13 @@ namespace Anekprovider.VkClient.Controllers
             string nickname = _vkApi.Users.Get(new List<long>() { (long)msg.FromId }).First().LastName;
             var user = new AnekProvider.DataModels.Entities.User() { UserProfile = msg.FromId.ToString(), UserName = nickname };
             _controller.Save(user, anek);
+
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = "Анек успешно добавлен!",
+            });
         }
 
         private void Help(Message msg)
