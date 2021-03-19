@@ -93,6 +93,14 @@ namespace Anekprovider.VkClient.Controllers
         }
         private void CreateUserAnek(Message msg)
         {
+            if(msg.ReplyMessage.Text.Length > 990)
+                _vkApi.Messages.Send(new MessagesSendParams
+                {
+                    RandomId = new DateTime().Millisecond,
+                    PeerId = msg.PeerId.Value,
+                    Message = "Слишком длинный анек("
+                });
+
             var args = msg.ReplyMessage.Text.Split("~~~");
             string title = args[0].Trim();
             string text = args[1].Trim();
@@ -155,11 +163,6 @@ namespace Anekprovider.VkClient.Controllers
                             Payload = JsonConvert.SerializeObject(anek, _settings)
                         });
                     }
-                    catch(Exception e)
-                    {
-                        throw new Exception(anek.Title);
-                    }
-
                 }
             }
         }
