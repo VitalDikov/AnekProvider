@@ -53,12 +53,9 @@ namespace AnekProvider.Core.Controllers
         public static void SaveAnek(User user, BaseAnek anek)
         {
             user = CreateUser(user);
+            anek.User = user.ID;
             anek = CreateAnek(anek);
-            if (!user.Aneks.Where(el => el.ID == anek.ID).Any())
-            {
-                user.Aneks.Add(anek);
-                userService.Update(user);
-            }
+                
         }
 
         public static List<BaseAnek> GetAneks(string userProfileID)
@@ -67,7 +64,7 @@ namespace AnekProvider.Core.Controllers
             if (!users.Any())
                 return new List<BaseAnek>();
             var user = users.First();
-            return anekService.Get(an => an.UserID == user.ID).ToList();
+            return anekService.Get(an => an.User == user.ID).ToList();
         }
 
         public static BaseAnek GetAnek(Guid guid)

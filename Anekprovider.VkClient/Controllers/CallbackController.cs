@@ -126,7 +126,10 @@ namespace Anekprovider.VkClient.Controllers
                 msg.ReplyMessage.Payload :
                 msg.ForwardedMessages.First().ForwardedMessages.First().Payload;
 
-                _controller.Save(user, (BaseAnek)JsonConvert.DeserializeObject(payload, _settings));
+            var anek = (BaseAnek)JsonConvert.DeserializeObject(payload, _settings);
+            anek.ID = Guid.Empty;
+            anek.User = Guid.Empty;
+            _controller.Save(user, anek);
         }
         private void All(Message msg)
         {

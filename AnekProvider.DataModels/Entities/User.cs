@@ -9,6 +9,5 @@ namespace AnekProvider.DataModels.Entities
         public Guid ID { get; set; }
         public string UserProfile { get; set; }
         public string UserName { get; set; }
-        public virtual List<BaseAnek> Aneks { get; set; } = new List<BaseAnek>();
     }
 }
