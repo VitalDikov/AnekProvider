@@ -153,16 +153,13 @@ namespace Anekprovider.VkClient.Controllers
             {
                 foreach (var anek in aneks)
                 {
-                    try
+                    _vkApi.Messages.Send(new MessagesSendParams
                     {
-                        _vkApi.Messages.Send(new MessagesSendParams
-                        {
-                            RandomId = new DateTime().Millisecond,
-                            PeerId = msg.PeerId.Value,
-                            Message = $"{anek.Title}",
-                            Payload = JsonConvert.SerializeObject(anek, _settings)
-                        });
-                    }
+                        RandomId = new DateTime().Millisecond,
+                        PeerId = msg.PeerId.Value,
+                        Message = $"{anek.Title}",
+                        Payload = JsonConvert.SerializeObject(anek, _settings)
+                    });
                 }
             }
         }
