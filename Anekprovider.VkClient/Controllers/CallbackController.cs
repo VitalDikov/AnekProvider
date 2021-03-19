@@ -127,6 +127,13 @@ namespace Anekprovider.VkClient.Controllers
                 msg.ForwardedMessages.First().ForwardedMessages.First().Payload;
 
                 _controller.Save(user, (BaseAnek)JsonConvert.DeserializeObject(payload, _settings));
+
+            _vkApi.Messages.Send(new MessagesSendParams
+            {
+                RandomId = new DateTime().Millisecond,
+                PeerId = msg.PeerId.Value,
+                Message = "Анек успешно сохранён!",
+            });
         }
         private void All(Message msg)
         {
