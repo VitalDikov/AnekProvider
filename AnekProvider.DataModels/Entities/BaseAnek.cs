@@ -8,7 +8,7 @@ namespace AnekProvider.DataModels.Entities
     {
         public Guid ID { get; set; }
         public string Title { get; set; }
-
+        public Guid UserID{ get; set; }
         public abstract string GetText();
     }
 }

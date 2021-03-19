@@ -37,6 +37,12 @@ namespace AnekProvider.DataModels.Repositories
             builder.Entity<CustomAnek>();
             builder.Entity<ParsableAnek>();
 
+            builder
+                .Entity<BaseAnek>()
+                .HasOne<User>()
+                .WithMany(user => user.Aneks)
+                .HasForeignKey(thp => thp.UserID);
+
             base.OnModelCreating(builder);
         }
 

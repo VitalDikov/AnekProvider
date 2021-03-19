@@ -66,8 +66,8 @@ namespace AnekProvider.Core.Controllers
             var users = userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
                 return new List<BaseAnek>();
-            var anekIDs = users.First().Aneks.Select(el => el.ID).AsQueryable();
-            return anekIDs.Select(el => anekService.FindByID(el)).ToList();
+            var user = users.First();
+            return anekService.Get(an => an.UserID == user.ID).ToList();
         }
 
         public static BaseAnek GetAnek(Guid guid)
