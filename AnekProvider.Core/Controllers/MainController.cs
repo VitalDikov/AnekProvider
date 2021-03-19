@@ -28,7 +28,7 @@ namespace AnekProvider.Core.Controllers
 
         public static ParsableAnek GetRandomAnek()
         {
-            int parsersAmount = 1; // добавить, когда появятся новые парсеры
+            int parsersAmount = 2; // добавить, когда появятся новые парсеры
             Random r = new Random();
             switch (r.Next(parsersAmount))
             {
@@ -41,8 +41,10 @@ namespace AnekProvider.Core.Controllers
                 case 1:
                     {
                         BDotRuAnekParser parser = new BDotRuAnekParser();
-                        string redirUrl = "https://baneks.ru/" + GetRedirUrl("https://baneks.ru/random");
-                        return new BDotRuAnek() { Title = parser.GetTitle(redirUrl), Uri = redirUrl };
+                        string redirUrl = GetRedirUrl("https://baneks.ru/random");
+                        var titlewords = parser.GetTitle(redirUrl).Split();
+                        string title = String.Join(' ', titlewords.Take(Math.Min(10, titlewords.Count())));
+                        return new BDotRuAnek() { Title = title, Uri = redirUrl };
                     }
                 default:
                     throw new Exception("Invalid Parsers Amount");
