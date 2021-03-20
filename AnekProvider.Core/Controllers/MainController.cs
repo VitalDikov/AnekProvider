@@ -1,24 +1,19 @@
 ﻿using AnekProvider.Core.Models;
-using AnekProvider.Core.Parsers;
 using AnekProvider.DataModels.Entities;
-using AnekProvider.DataModels.Parsers;
 using AnekProvider.DataModels.Repositories;
 using AnekProvider.DataModels.Services;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
 
 namespace AnekProvider.Core.Controllers
 {
-    public static class MainController
+    public class MainController
     {
-        private static AnekService anekService;
-        private static UserService userService;
+        private AnekService anekService;
+        private UserService userService;
 
-        static MainController()
+        public MainController()
         {
             AnekContext db = new AnekContext();
             UnitOfWork uof = new UnitOfWork(db);
@@ -27,12 +22,12 @@ namespace AnekProvider.Core.Controllers
             userService = new UserService(uof);
         }
 
-        public static ParsableAnek GetRandomAnek()
+        public ParsableAnek GetRandomAnek()
         {
             return AnekRandomizer.GetRandomAnek();
         }
 
-        public static User CreateUser(User user)
+        public User CreateUser(User user)
         {
             var users = userService.Get(el => el.UserProfile == user.UserProfile);
             if (users.Any())
@@ -41,19 +36,19 @@ namespace AnekProvider.Core.Controllers
                 return userService.Create(user);
         }
 
-        public static BaseAnek CreateAnek(BaseAnek anek)
+        public BaseAnek CreateAnek(BaseAnek anek)
         {
             return anekService.Create(anek);                
         }
 
-        public static void SaveAnek(User user, BaseAnek anek)
+        public void SaveAnek(User user, BaseAnek anek)
         {
             user = CreateUser(user);
             anek.User = user.ID;
             anek = CreateAnek(anek);                
         }
 
-        public static List<BaseAnek> GetAneks(string userProfileID)
+        public List<BaseAnek> GetAneks(string userProfileID)
         {
             var users = userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
@@ -62,7 +57,7 @@ namespace AnekProvider.Core.Controllers
             return anekService.Get(an => an.User == user.ID).ToList();
         }
 
-        public static BaseAnek GetAnek(Guid guid)
+        public BaseAnek GetAnek(Guid guid)
         {
             return anekService.FindByID(guid);
         }
