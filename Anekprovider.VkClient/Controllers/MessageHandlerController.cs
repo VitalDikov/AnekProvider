@@ -35,6 +35,13 @@ namespace Anekprovider.VkClient.Controllers
                 case "message_new":
                     {
                         var msg = Message.FromJson(new VkResponse(updates.Object));
+                        string firstword = msg.Text.Split()[0];
+                        string text = msg.Text.ToString();
+                        if (firstword.Contains('@'))
+                            if (!firstword.Contains("anekprovider"))
+                                return Ok("ok"); 
+                            else
+                                msg.Text = msg.Text.Remove(0, firstword.Length).Remove(0, 1);
 
                         switch (msg.Text)
                         {
@@ -52,11 +59,8 @@ namespace Anekprovider.VkClient.Controllers
                             case "/покеж":
                                 _controller.ShowAnek(msg);
                                 break;
-                            default:
-                                if (msg.Text.Contains("/новый"))
-                                    _controller.CreateUserAnek(msg);
-                                else
-                                    _controller.Help(msg);
+                            case "/новый":
+                                _controller.CreateUserAnek(msg);
                                 break;
                         }
                         break;
