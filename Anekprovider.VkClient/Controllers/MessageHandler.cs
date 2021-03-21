@@ -7,7 +7,7 @@ using VkNet.Utils;
 
 namespace Anekprovider.VkClient.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/callback")]
     [ApiController]
     public class MessageHandler : ControllerBase
     {
