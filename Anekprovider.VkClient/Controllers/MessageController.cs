@@ -12,13 +12,13 @@ namespace Anekprovider.VkClient.Controllers
         private readonly IVkApi _vkApi;
         private readonly IBotController _controller;
         private readonly AnekManager _anekManager;
-        private readonly MessageSenderController _sender;
+        private readonly MessageSender _sender;
         public MessageController(IVkApi vkApi)
         {
             _vkApi = vkApi;
             _controller = new VkBotController();
             _anekManager = new AnekManager(_controller);
-            _sender = new MessageSenderController(_vkApi);
+            _sender = new MessageSender(_vkApi);
         }
 
         public void All(Message msg)

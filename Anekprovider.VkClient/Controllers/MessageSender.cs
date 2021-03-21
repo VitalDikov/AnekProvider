@@ -4,10 +4,10 @@ using VkNet.Model.RequestParams;
 
 namespace Anekprovider.VkClient.Controllers
 {
-    public class MessageSenderController
+    public class MessageSender
     {
         private IVkApi _vkApi;
-        public MessageSenderController(IVkApi vkApi)
+        public MessageSender(IVkApi vkApi)
         {
             _vkApi = vkApi;
         }

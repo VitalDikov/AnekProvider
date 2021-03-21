@@ -9,7 +9,7 @@ namespace Anekprovider.VkClient.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessageHandlerController : ControllerBase
+    public class MessageHandler : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IVkApi _vkApi;
@@ -17,7 +17,7 @@ namespace Anekprovider.VkClient.Controllers
         /// <summary>
         /// Конфигурация приложения
         /// </summary>
-        public MessageHandlerController(IVkApi vkApi, IConfiguration configuration)
+        public MessageHandler(IVkApi vkApi, IConfiguration configuration)
         {
             _vkApi = vkApi;
             _configuration = configuration;
