@@ -10,16 +10,16 @@ namespace AnekProvider.Core.Controllers
 {
     public class MainController
     {
-        private AnekService anekService;
-        private UserService userService;
+        private readonly AnekService _anekService;
+        private readonly UserService _userService;
 
         public MainController()
         {
             AnekContext db = new AnekContext();
             UnitOfWork uof = new UnitOfWork(db);
 
-            anekService = new AnekService(uof);
-            userService = new UserService(uof);
+            _anekService = new AnekService(uof);
+            _userService = new UserService(uof);
         }
 
         public ParsableAnek GetRandomAnek()
@@ -29,16 +29,16 @@ namespace AnekProvider.Core.Controllers
 
         public User CreateUser(User user)
         {
-            var users = userService.Get(el => el.UserProfile == user.UserProfile);
+            var users = _userService.Get(el => el.UserProfile == user.UserProfile);
             if (users.Any())
                 return users.First();
             else
-                return userService.Create(user);
+                return _userService.Create(user);
         }
 
         public BaseAnek CreateAnek(BaseAnek anek)
         {
-            return anekService.Create(anek);                
+            return _anekService.Create(anek);                
         }
 
         public void SaveAnek(User user, BaseAnek anek)
@@ -50,16 +50,16 @@ namespace AnekProvider.Core.Controllers
 
         public List<BaseAnek> GetAneks(string userProfileID)
         {
-            var users = userService.Get(el => el.UserProfile == userProfileID);
+            var users = _userService.Get(el => el.UserProfile == userProfileID);
             if (!users.Any())
                 return new List<BaseAnek>();
             var user = users.First();
-            return anekService.Get(an => an.User == user.ID).ToList();
+            return _anekService.Get(an => an.User == user.ID).ToList();
         }
 
         public BaseAnek GetAnek(Guid guid)
         {
-            return anekService.FindByID(guid);
+            return _anekService.FindByID(guid);
         }
             
     }
