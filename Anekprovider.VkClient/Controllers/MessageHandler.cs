@@ -62,6 +62,9 @@ namespace Anekprovider.VkClient.Controllers
                             case "/новый":
                                 _controller.CreateUserAnek(msg);
                                 break;
+                            default:
+                                _controller.Help(msg);
+                                break;
                         }
                         break;
                     }
